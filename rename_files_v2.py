@@ -306,8 +306,20 @@ def myClick():
         # Merge consecutive underscores for aesthetics
         filenames_new = [re.sub('_+', '_', fn) for fn in filenames_new]
 
-                # Merge consecutive underscores for aesthetics
+                # Merge consecutive hyphen and underscores after for aesthetics
         filenames_new = [re.sub('-_', '-', fn) for fn in filenames_new]
+        
+
+        print('This is filenames array checker' + str(filenames))
+        print('This is filenames_new array checker' + str(filenames_new))
+
+
+
+        for f in filenames_new:
+            for i in range(0, filelength):
+                if f == filenames_new[i]:
+                    print(filenames_new[i] + ' this should be same only pone')
+
 
         # # Merge consecutive underscores for aesthetics
         # filenames_new = [re.sub('_+', '_', fn) for fn in filenames_new]
@@ -315,6 +327,8 @@ def myClick():
         noChangeLabel = Label(main_container, text="No Changes needed")
         noChangeLabel.grid(row=3, column=0)
         
+        
+
         if noChangeLabel.winfo_exists() == 1:
             if filenames_new != filenames:
                 noChangeLabel.destroy()
@@ -347,7 +361,8 @@ def myClick():
                     
                     my_listbox.insert(0, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
                     my_listbox.itemconfig(0, {'fg': 'red'})
-                    
+                
+           
         if filenames == filenames_new :
             # noChangeLabel = exec('Label%d=Label(root,text="No Changes needed")\nLabel%d.grid(row=3, column=0)' %
                     #   (1000000, 1000000))
@@ -595,7 +610,9 @@ def fix():
         # Merge consecutive underscores for aesthetics
         filenames_new = [re.sub('_+', '_', fn) for fn in filenames_new]
 
-        
+        # Merge consecutive hyphen and underscores after for aesthetics
+        filenames_new = [re.sub('-_', '-', fn) for fn in filenames_new]
+
 
         # if var2.get() == 1:
         #     with open("file_names.txt", "wt", encoding='utf-8') as output:
@@ -851,6 +868,7 @@ def printSubFiles():
         extMap = {}
         fileList = []
         fileListName = []
+        removalExcessiveChar = []
         dirList = []
         allList = []
         spacesList = []
@@ -864,6 +882,7 @@ def printSubFiles():
         systemFileList = []
         emptyFileList = []
         doubleExtList = []
+        documentation = []
         noExtList = []
         JPGlist=[]
         paths = os.listdir(dir)
@@ -907,6 +926,8 @@ def printSubFiles():
                 commaList.append(paths)
             if 'JPG' in f:
                 JPGlist.append(paths)
+            if  re.search(r'-_', f):
+                removalExcessiveChar.append(paths)
             if '(' in f or ')' in f:
                 parenthList.append(paths)
             if '|' in f or '/' in f or '?' in f or '[' in f or ']' in f or '"' in f or ':' in f or ';' in f or '<' in f or '>' in f or '%' in f or '^' in f or '@' in f or '#' in f or '$' in f or '{' in f or '}' in f or '~' in f or '=' in f:
@@ -938,7 +959,10 @@ def printSubFiles():
             totalFilesize = totalFilesize + filesize
             if filesize == 0:
                 emptyFileList.append(paths)
-      
+            string_to_match='documentation'
+            if string_to_match in paths:
+                documentation.append(f)
+                print('blargs')
         # Change extension map into a string 
         for ext, noExt in extMap.items():
             if extStr != '':
@@ -963,8 +987,11 @@ def printSubFiles():
         logfile.write(format('Directories and Files:', '<25') + str(len(dirList) + len(fileList)) + '\n')
         logfile.write(format('Total Filesize:', '<25') + str("{:,}".format(totalFilesize)) + ' bytes\n')
         logfile.write(format('Extensions:', '<25') + extStr + '\n')
+        # logfile.write(format('Documentation files:', '<25') + str(len(documentation)) + '\n')
+        displayReportText(documentation, 'Documentation Files = ' + str(len(documentation)))
         displayReportText(spacesList, 'Spaces (includes folders) = ' + str(len(spacesList)))
         displayReportText(JPGlist, 'Uppercase JPG = ' + str(len(JPGlist)))
+        displayReportText(removalExcessiveChar, 'Removal of -_ for readability = ' + str(len(removalExcessiveChar)))
         displayReportText(ampList, 'Ampersands = ' + str(len(ampList)))
         displayReportText(plusList, 'Plus or Minus Signs = ' + str(len(plusList)))
         displayReportText(doubleExtList, 'Multiple Extensions (or Full Stop) = ' + str(len(doubleExtList)))
@@ -976,6 +1003,7 @@ def printSubFiles():
         displayReportText(dupFileList, 'Duplicate Files = ' + str(len(dupFileList)))
         displayReportText(systemFileList, 'System Files = ' + str(len(systemFileList)))
         displayReportText(emptyFileList, 'Empty Files = ' + str(len(emptyFileList)))
+        
                 
         logfile.close()
         logfile = open(outputFile, 'r')
