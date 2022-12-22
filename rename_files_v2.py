@@ -18,75 +18,9 @@ from unicodedata import name
 global count
 global  noChangeLabel
 global length
-# class MyApp:
-#     def __init__(self, parent):
-#         self.myParent = parent
-
-#         self.main_container = Frame(parent, bg="green")
-#         self.main_container.grid()
-
-#         self.top_frame = Frame(self.main_container)
-#         self.top_frame.grid()
-
-#         self.top_left = Frame(self.top_frame, bd=2)
-#         self.top_left.grid(row=0, column=0)
-
-#         self.top_right = Frame(self.top_frame, bd=2)
-#         self.top_right.grid(row=0, column=2)
-
-#         self.top_left_label = Label(self.top_left, bd=2, bg="red", text="Top Left", width=22, anchor=W)
-#         self.top_left_label.grid(row=0, column=0)
-
-#         self.top_right_label = Label(self.top_right, bd=2, bg="blue", text="Top Right", width=22, anchor=E)
-#         self.top_right_label.grid(row=0, column=0)
-
-#         self.bottom_frame = Frame(self.main_container, bd=2)
-#         self.bottom_frame.grid(row=2, column=0)
-
-#         self.text_box = Text(self.bottom_frame, width=40, height=5)
-#         self.text_box.grid(row=0, column=0)
+# setting up the root Tkinter 
 root = Tk()
-
-
-# root.geometry("550x280")
-# confiugures column 0 to stretch with a scaler of 1.
-
-# # # confiugures row 0 to stretch with a scaler of 1.
-# root.rowconfigure(0, weight=1)
-# # # confiugures column 0 to stretch with a scaler of 1.
-# root.columnconfigure(1, weight=1)
-# # # confiugures row 0 to stretch with a scaler of 1.
-# root.rowconfigure(1, weight=1)
-# # # confiugures column 0 to stretch with a scaler of 1.
-# root.columnconfigure(2, weight=1)
-# # # confiugures row 0 to stretch with a scaler of 1.
-# root.rowconfigure(2, weight=1)
-# # root.resizable(False, False)
-
-# # Create a main frame
-# main_frame = Frame(root)
-# main_frame.pack(fill=BOTH, expand=1)
-
-# # create a canvas
-# my_canvas = Canvas(main_frame)
-# my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
-
-# # create scrollbar to canvas
-# my_scrollbar = ttk.Scrollbar(
-#     main_frame, orient=VERTICAL, command=my_canvas.yview)
-# my_scrollbar.pack(side=RIGHT, fill=Y)
-
-# # config canvas
-# my_canvas.configure(yscrollcommand=my_scrollbar.set)
-# my_canvas.bind('<Configure>', lambda e: my_canvas.configure(
-#     scrollregion=my_canvas.bbox("all")))
-
-# # create another frame inside the canvas
-# second_frame = Frame(my_canvas)
-
-# # Add new frame to window in canvas
-# my_canvas.create_window((0, 0), window=second_frame, anchor='nw')
-
+# Title of the Application Goes along top bar
 root.title('ADS Rename Files Tool (Made By Jamie Geddes)')
 i = 0
 y = 0
@@ -106,7 +40,7 @@ def myClick():
     
     
 
-
+# Find directory Function
     def findDir():
         global path
         global currentDirectoryLabel
@@ -126,7 +60,7 @@ def myClick():
             
             return path
         
-    
+    # Initialise function
     findDir()
     
 
@@ -317,7 +251,7 @@ def myClick():
 
         for f in filenames_new:
             for i in range(0, filelength):
-                if f == filenames_new[i]:
+                if filenames[i] == filenames_new[i]:
                     print(filenames_new[i] + ' this should be same only pone')
 
 
