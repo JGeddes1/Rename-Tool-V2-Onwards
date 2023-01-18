@@ -13,6 +13,7 @@ from tkinter import ttk
 from pathlib import Path
 from typing import Counter
 from unicodedata import name
+from array import array
 # shows dialog box and return the path
 
 global count
@@ -42,15 +43,16 @@ def myClick():
 
 # Find directory Function
     def findDir():
-        global path
-        global currentDirectoryLabel
+        global path # set global path for all future calls
+        global currentDirectoryLabel # set current directory value
         path = filedialog.askdirectory(master='', initialdir='', title="Select your Source directory", mustexist=True)
-        currentDirectoryLabel = Label(footer, text="Current Working Directory:                                                                                                                                                                                              ").grid(column=0, row=7, padx=5, pady=5, sticky='w')
-        currentDirectoryLabel = Label(footer, text="Current Working Directory: " + path).grid(column=0, row=7, padx=5, pady=5, sticky='w')
+        currentDirectoryLabel = Label(footer, text="Current Working Directory:")# resets text                                                                                                                                                                                    ").grid(column=0, row=7, padx=5, pady=5, sticky='w')
+        currentDirectoryLabel = Label(footer, text="Current Working Directory: " + path).grid(column=0, row=7, padx=5, pady=5, sticky='w') # prints current dir + path
         
         # print(path) turn into label at some point
         
-        print('OPOP' + str(path))
+        #print('OPOP' + str(path))
+        #If path is none or blank it pops up error and returns the path of none for further use
         if path == None or path == '':
             messagebox.showwarning('Error', 'No path selected, resetting..')
 
@@ -74,14 +76,14 @@ def myClick():
     # retval = os.getcwd()
     if path == '':
         return False
-    print("Directory changed successfully %s" % path)
-
+    print("Directory changed successfully %s" % path)  #check directory changed
+    # Passes arguments of all the file paths
     parser = argparse.ArgumentParser(
         description="Rename all files in directory by replacing whitespace with underscores.")
     parser.add_argument('directories', metavar="DIR", nargs='*',
                         default=[path], help="directories to walk. Default: asks")
     err = sys.stderr.write
-    print(path)
+    # print(path)
     global numberFilesAlreadyGone
     global numberFilesAlreadyGone2
     numberFilesAlreadyGone = -1
@@ -249,10 +251,48 @@ def myClick():
 
 
 
-        for f in filenames_new:
-            for i in range(0, filelength):
-                if filenames[i] == filenames_new[i]:
-                    print(filenames_new[i] + ' this should be same only pone')
+        unique_List = []
+        duplicate_List =[]
+        for file in filenames_new:
+            if file not in unique_List:
+                unique_List.append(file)
+                # print('this is unique list'+str(unique_List))    
+            else:
+                 duplicate_List.append(file)
+        
+        countDuplicate_List = len(duplicate_List)
+        if countDuplicate_List > 0:
+            messagebox.showinfo(title='Alert', message="Duplicate filenames when fix will take place please rename the following files before continuing " + str(duplicate_List))
+        # listArray = array(unique_List)       
+                    
+       
+        
+        # uniqueList = []
+        # for i in range(0, filelength):
+        #     for file in filenames_new:
+        #         if file not in uniqueList:
+        #             uniqueList.append(file)
+                    
+        #         # print ('work plz' +uniqueList[i])
+        #         else :
+        #             print ('work plz' +file)
+        
+        # countings={}
+
+        # for fn in filenames_new:
+        #     countings[fn]=filenames_new.count(fn)
+
+        #     print ('this is counting stuff'+str(countings))
+        #     if countings[fn] >= 1:
+        #         print('countings'+str(fn))
+            # for i in range(0, filelength):
+            #     # if f == filenames[i]:
+            #     #     print(f + ' This should be same name as filenames here: '+ filenames[i])
+            #     #     messagebox.showinfo(title='Alert', message="Duplicate filename if fixed please " + f)
+            #     print(f + 'This is file in filenames_new')
+            #     print(filenames[i] + 'This is file in filenames i')
+            #     if f == filenames[i]:
+            #         print(f + ' this is filename already taken') 
 
 
         # # Merge consecutive underscores for aesthetics
