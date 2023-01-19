@@ -16,9 +16,16 @@ from unicodedata import name
 from array import array
 # shows dialog box and return the path
 
+unique_List = []
+
 global count
 global  noChangeLabel
 global length
+global listfiles
+global list_all 
+list_all =unique_List
+
+print(str(list_all)+'THIS IS LIST ALL')
 # setting up the root Tkinter 
 root = Tk()
 # Title of the Application Goes along top bar
@@ -32,7 +39,7 @@ global path
 def myClick():
     # global path
     myButton2['state'] = 'disabled'
-    
+    unique_List = []
     def step():
         for x in range(5):
             my_progress['value'] +=20
@@ -250,13 +257,17 @@ def myClick():
         print('This is filenames_new array checker' + str(filenames_new))
 
 
-
-        unique_List = []
+        # Have to figure out how to add to array on each loop if want unique across folderpaths currently only works with chosen directory and not sub directories
+        # Potentially create a if unique_list.length = filenames_new.length then put uniquelist into a global array? my_list = list(set(my_list))
+        global list_all
+        list_all = []
         duplicate_List =[]
         for file in filenames_new:
             if file not in unique_List:
                 unique_List.append(file)
-                # print('this is unique list'+str(unique_List))    
+                print('this is unique list'+str(unique_List))  
+                list_all =unique_List 
+                
             else:
                  duplicate_List.append(file)
         
@@ -963,6 +974,7 @@ def printSubFiles():
         logfile.write(format('Extensions:', '<25') + extStr + '\n')
         # logfile.write(format('Documentation files:', '<25') + str(len(documentation)) + '\n')
         displayReportText(documentation, 'Documentation Files = ' + str(len(documentation)))
+        displayReportText(list_all, 'Files = ' + str(len(list_all)))
         displayReportText(spacesList, 'Spaces (includes folders) = ' + str(len(spacesList)))
         displayReportText(JPGlist, 'Uppercase JPG = ' + str(len(JPGlist)))
         displayReportText(removalExcessiveChar, 'Removal of -_ for readability = ' + str(len(removalExcessiveChar)))
@@ -977,6 +989,7 @@ def printSubFiles():
         displayReportText(dupFileList, 'Duplicate Files = ' + str(len(dupFileList)))
         displayReportText(systemFileList, 'System Files = ' + str(len(systemFileList)))
         displayReportText(emptyFileList, 'Empty Files = ' + str(len(emptyFileList)))
+        
         
                 
         logfile.close()
