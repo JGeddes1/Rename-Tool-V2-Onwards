@@ -220,7 +220,7 @@ def myClick():
         if var3.get()==1:
             
             
-            filenames_new = (re.sub('.JPG', 'jpg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.JPG', '.jpg',  fn) for fn in filenames_new)
             filenames_new = (re.sub('.JPEG', 'jpeg',  fn) for fn in filenames_new)
             filenames_new = (re.sub('.CSV', 'csv',  fn) for fn in filenames_new)
             filenames_new = (re.sub('.SHP', 'shp',  fn) for fn in filenames_new)

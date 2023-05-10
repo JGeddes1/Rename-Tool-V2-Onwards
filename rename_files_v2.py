@@ -14,8 +14,8 @@ from pathlib import Path
 from typing import Counter
 from unicodedata import name
 from array import array
-# shows dialog box and return the path
 
+# Array that gets unique filenames put in for checking later on in code
 unique_List = []
 
 global count
@@ -23,29 +23,28 @@ global  noChangeLabel
 global length
 global listfiles
 global list_all 
+#list all used in the log sheet section 
 list_all =unique_List
 
-print(str(list_all)+'THIS IS LIST ALL')
+# print(str(list_all)+'THIS IS LIST ALL')
 # setting up the root Tkinter 
 root = Tk()
+
 # Title of the Application Goes along top bar
 root.title('ADS Rename Files Tool (Made By Jamie Geddes)')
 i = 0
 y = 0
 global path
-# root.iconbitmap('icon.ico')
+filecounter = 0
+filecounter2 = 0
 
-
+#Overall Function when select directory is clicked to do all the initial find directory and scan stuff
 def myClick():
-    # global path
+
+    # Initial variables in the function for scanning mainly
+    #Sets the fix button to off initially
     myButton2['state'] = 'disabled'
     unique_List = []
-    def step():
-        for x in range(5):
-            my_progress['value'] +=20
-            root.update_idletasks()
-            
-    
     
 
 # Find directory Function
@@ -56,7 +55,7 @@ def myClick():
         currentDirectoryLabel = Label(footer, text="Current Working Directory:")# resets text                                                                                                                                                                                    ").grid(column=0, row=7, padx=5, pady=5, sticky='w')
         currentDirectoryLabel = Label(footer, text="Current Working Directory: " + path).grid(column=0, row=7, padx=5, pady=5, sticky='w') # prints current dir + path
         
-        # print(path) turn into label at some point
+        
         
         #print('OPOP' + str(path))
         #If path is none or blank it pops up error and returns the path of none for further use
@@ -75,8 +74,8 @@ def myClick():
 
     
     
-    # step()
-    # maek list blank each time click is run
+    
+    # make list blank each time click is run
     my_listbox.delete(0, END)
     my_listbox2.delete(0, END)
     # check directory
@@ -90,54 +89,27 @@ def myClick():
     parser.add_argument('directories', metavar="DIR", nargs='*',
                         default=[path], help="directories to walk. Default: asks")
     err = sys.stderr.write
-    # print(path)
+    # Testing out filenames counter for going into list box
     global numberFilesAlreadyGone
     global numberFilesAlreadyGone2
     numberFilesAlreadyGone = -1
     numberFilesAlreadyGone2 = -1
+
     def new_names(filenames):
         global numberFilesAlreadyGone
         global numberFilesAlreadyGone2
          
-        """
-        Generate new filenames for the given filenames
-        """
+        
+        # Generate new filenames for the given filenames
+        
         print(filenames)
         filelength = len(filenames)
         
         my_progress['value'] =50
         root.update_idletasks()
         time.sleep(0.02)
-        # print(filenames[0])
-        # for i in range(0, filelength):
-            
-            
-        #     print("filenames original", i, ":", filenames[i])
-        #     if i == 0:
-        #         exec('Label%d=Label(root,text="Files Submitted:")\nLabel%d.grid(row=3, column=0)' %
-        #              (i, i))
-        #     numberFilesAlreadyGone = numberFilesAlreadyGone + 1
-        #     # create items in listbox
-        #     my_listbox.insert(numberFilesAlreadyGone, filenames[i] + '' +str(numberFilesAlreadyGone))
-            
-           
-            
-        #     my_listbox.itemconfig(numberFilesAlreadyGone, {'fg': 'blue'})
-        #     if (numberFilesAlreadyGone % 2) == 0:
-        #         my_listbox.itemconfig(numberFilesAlreadyGone, {'bg': '#f5f5f5'})
-
-            
-
-
-            # exec('Label%d=Label(root,text= "%d" ". "+"%s",fg="#FF0000")\nLabel%d.grid(row=4, column=4)' %
-            #      (i, i+1, filenames[i], i))
-
-        #     for i in range(0, len(Result)):
-        #     print "result", i, ":", Result[i]
-        #     self.labelVars[i].set(Result[i])
-        # self.entry.focus_set()
-        # self.entry.selection_range(0, Tkinter.END)
-       
+    
+       # --FILENAME SCAN AND WHAT WOULD NEED TO REPLACE SECTION START --
 
         # Replace white space with underscores:
         filenames_new = (re.sub('\s+', '_', fn) for fn in filenames)
@@ -152,9 +124,7 @@ def myClick():
         # Replace white brackets with undescore:
         filenames_new = (re.sub('\&', '_and_',  fn) for fn in filenames_new)
         
-        # filenames_new = (
-        #     re.sub('\.*[.](?!txt$|jpg$|png$|tif$|bmp$|xlsx$|rtf$|jpeg$|docx$|doc$|odt$|xls$|pdf$|ods$|e57$|obj$|vrml$|mtl$|stl$|aac$|aif$|flac$|mp3$|ogg$|xml$|html$|sgml$|xhtml$|dwg$|dxf$|svg$|csv$|cfm$|vrml$|gml$|xsd$|vrml$|cpg$|dbf$|prj$|sbn$|sbx$|shp$|shx$|shp.xml$|mg$|3DS$|3G2$|3GP$|7z$|AGR$|AI$|BIN$|BLEND$|CSS$|DB$|DOCM$|DOCHTML$|DOCMHTML$|DOT$|fbx$)[^.]*', '-', fn) for fn in filenames_new)
-
+   
         if var.get() == 1:
             
             # Alphabet For lowercase
@@ -163,76 +133,32 @@ def myClick():
         if var3.get()==1:
             
             
-            filenames_new = (re.sub('.JPG', 'jpg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.JPEG', 'jpeg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.CSV', 'csv',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.SHP', 'shp',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.HTML', 'html',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TIFF', 'tiff',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TXT', 'txt',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.PNG', 'png',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TIF', 'tif',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.BMP', 'bmp',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.RTF', 'rtf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DOCX', 'docx',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DOC', 'doc',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.ODT', 'odt',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XLS', 'xls',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.PDF', 'pdf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.ODS', 'ods',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.E57', 'e57',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.OBJ', 'obj',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DWG', 'dwg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DXF', 'dxf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.CSS', 'css',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XSD', 'xsd',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XML', 'xml',  fn) for fn in filenames_new)
-            
-            
-            
+            filenames_new = (re.sub('.JPG', '.jpg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.JPEG', '.jpeg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.CSV', '.csv',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.SHP', '.shp',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.HTML', '.html',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TIFF', '.tiff',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TXT', '.txt',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.PNG', '.png',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TIF', '.tif',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.BMP', '.bmp',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.RTF', '.rtf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DOCX', '.docx',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DOC', '.doc',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.ODT', '.odt',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XLS', '.xls',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.PDF', '.pdf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.ODS', '.ods',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.E57', '.e57',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.OBJ', '.obj',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DWG', '.dwg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DXF', '.dxf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.CSS', '.css',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XSD', '.xsd',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XML', '.xml',  fn) for fn in filenames_new)
 
-            # filenames_new = (re.sub('JPG', 'jpg',  fn) for fn in filenames_new)
-            # filenames_new = (re.sub('JPEG', 'jpeg',  fn) for fn in filenames_new)
-            
-                
-            # for fn in filenames_new:
-            #     i=0
-            #     filenames_new_list = list(filenames_new)
-            #     print ('hello this is filenames list --->   ', filenames_new_list)
-            #     print ('hello this is filenames fn --->   '+ fn)
-            #     file = fn
-            #     basename, ext = fn.split('.')
-            #     print(basename + 'this is basename')
-            #     print(ext + 'this is ext')
-            #     newname = []
-            #     fixedname = basename + '.' + ext.lower()
-            #     newname.insert(i,fixedname) 
-            #     print('this is fixced name list'+list(fixedname))
-            #     # print(newname + 'this is new name')
-            #     # filenames_changed = newname
-            #     filenames_new[i] = newname[i]
-            # #     i=+1
-            # print('this is fnnnn'+fn)
-                    
-                    
-            # print ('hello this is filenames list --->   ',  list(filenames_new))
-            #     # string_test = str(filenames_new)
-                # string_newname = str(newname)
-                # filenames_new = (re.sub(string_test, string_newname,  fn) for fn in filenames_new)
-                # print(fn +'this is after doing shit')
-                
-            
-            
-                # filenames_new = (re.sub('', newname,  fn) for fn in filenames_new)
 
-                # result = fn.split('.')
-                # filename = ".".join(result[0:-1]).lower() + '.' + result[-1].upper()
-                # filenames_new = (re.sub(filenames_new, filename,  fn) for fn in filenames_new)
-            
-
-            
-
-   
             # Erase non-alphanumeric-period-underscore characters:
         filenames_new = (re.sub('([.](?![A-Za-z0-9]+$))', '-',  fn)
                         for fn in filenames_new)
@@ -256,184 +182,138 @@ def myClick():
         print('This is filenames array checker' + str(filenames))
         print('This is filenames_new array checker' + str(filenames_new))
 
-
+        # --FILENAME SCAN SECTION END --
+        
         # Have to figure out how to add to array on each loop if want unique across folderpaths currently only works with chosen directory and not sub directories
         # Potentially create a if unique_list.length = filenames_new.length then put uniquelist into a global array? my_list = list(set(my_list))
         global list_all
+        global duplicate_List
         list_all = []
         duplicate_List =[]
         for file in filenames_new:
+            # UNQIUE LIST SECTION FOR LOG AND CHECKER
             if file not in unique_List:
                 unique_List.append(file)
                 print('this is unique list'+str(unique_List))  
                 list_all =unique_List 
-                
+                print("This is list_all" + str(list_all))
             else:
                  duplicate_List.append(file)
         
         countDuplicate_List = len(duplicate_List)
+        # IF COUNT DUPLICATE IS GREATER 0 IT WILL ALERT THERE IS DUPLICATES
         if countDuplicate_List > 0:
             messagebox.showinfo(title='Alert', message="Duplicate filenames when fix will take place please rename the following files before continuing " + str(duplicate_List))
-        # listArray = array(unique_List)       
-                    
-       
         
-        # uniqueList = []
-        # for i in range(0, filelength):
-        #     for file in filenames_new:
-        #         if file not in uniqueList:
-        #             uniqueList.append(file)
-                    
-        #         # print ('work plz' +uniqueList[i])
-        #         else :
-        #             print ('work plz' +file)
-        
-        # countings={}
-
-        # for fn in filenames_new:
-        #     countings[fn]=filenames_new.count(fn)
-
-        #     print ('this is counting stuff'+str(countings))
-        #     if countings[fn] >= 1:
-        #         print('countings'+str(fn))
-            # for i in range(0, filelength):
-            #     # if f == filenames[i]:
-            #     #     print(f + ' This should be same name as filenames here: '+ filenames[i])
-            #     #     messagebox.showinfo(title='Alert', message="Duplicate filename if fixed please " + f)
-            #     print(f + 'This is file in filenames_new')
-            #     print(filenames[i] + 'This is file in filenames i')
-            #     if f == filenames[i]:
-            #         print(f + ' this is filename already taken') 
-
-
-        # # Merge consecutive underscores for aesthetics
-        # filenames_new = [re.sub('_+', '_', fn) for fn in filenames_new]
-        
+        # IF NOT A CHANGE NEEDED
         noChangeLabel = Label(main_container, text="No Changes needed")
         noChangeLabel.grid(row=3, column=0)
-        
-        
 
         if noChangeLabel.winfo_exists() == 1:
             if filenames_new != filenames:
                 noChangeLabel.destroy()
-                print("HELP ME IM WORKING BUT NOT DELETING")
         noChangeLabel.destroy()    
         if filenames_new != filenames:
+            # ACTIVATED BUTTON TO FIX IF FILENAMES DONT MATCH
             myButton2['state'] = 'normal'
-            
+            # ---LIST BOX INSERT SECTION --
             for i in range(0, filelength):
-                
-                numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
-                print("filenames new:", i, ":", filenames_new[i])
-                my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
-                my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
-                my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
-                my_listbox.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
-                if (i % 2) == 0:
-                    my_listbox2.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
-                    my_listbox.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
+                    
+                    numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
+                    print("filenames new:", i, ":", filenames_new[i])
+                    my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
+                    my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
+                    my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
+                    my_listbox.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
 
-                if filenames_new[i] != filenames[i]:
-                    my_listbox2.delete(numberFilesAlreadyGone2)
-                    my_listbox.delete(numberFilesAlreadyGone2)
-                    wrongfilecount = 0
-                    wrongfilecount +=1
-                    my_listbox2.insert(0, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
-                    # my_listbox2.insert(END, filenames_new[i])
-                    my_listbox2.itemconfig(0, {'fg': 'green'})
+                    if (i % 2) == 0:
+                        my_listbox2.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
+                        my_listbox.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
+
+                    if filenames_new[i] != filenames[i]:
+                        my_listbox2.delete(numberFilesAlreadyGone2)
+                        my_listbox.delete(numberFilesAlreadyGone2)
+                        wrongfilecount = 0
+                        wrongfilecount +=1
+                        my_listbox2.insert(0, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
+                        # my_listbox2.insert(END, filenames_new[i])
+                        my_listbox2.itemconfig(0, {'fg': 'green'})
+                        
+                        
+                        my_listbox.insert(0, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
+                        my_listbox.itemconfig(0, {'fg': 'red'})
                     
-                    
-                    my_listbox.insert(0, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
-                    my_listbox.itemconfig(0, {'fg': 'red'})
-                
-           
+            # ---LIST BOX INSERT SECTION END --
+        # IF FILENAMES ORIGINAL DONT HAVE TO CHANGE
         if filenames == filenames_new :
-            # noChangeLabel = exec('Label%d=Label(root,text="No Changes needed")\nLabel%d.grid(row=3, column=0)' %
-                    #   (1000000, 1000000))
+
             global count
             
-            
-            
-            
-            
-            print("This is no change"+str(noChangeLabel.winfo_exists))
-           
-            
+        
+            for f in filenames:
+                filecounter + 1
+                if var4.get() ==1:
+                    if "." not in filenames[filecounter]:
+                        print("This is no change"+str(noChangeLabel.winfo_exists))
+        
+            # LIST BOX INSERT SECTION IF SAME NAMES
+            if var4.get() ==0:
+                for i in range(0, filelength):
 
-            for i in range(0, filelength):
-                
-                numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
-                print("filenames new:", i, ":", filenames_new[i])
-                my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
-                my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
-                my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
-                my_listbox.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
-                if (i % 2) == 0:
-                    my_listbox2.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
-                    my_listbox.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
-                numberFilesAlreadyGone = numberFilesAlreadyGone + 1
-                count = numberFilesAlreadyGone
-                # my_listbox.insert(END, filenames[i] + '0')
-                # my_listbox2.insert(END, filenames[i])
-                # my_listbox2.itemconfig(numberFilesAlreadyGone, {'fg': 'blue'})
-                # my_listbox.itemconfig(numberFilesAlreadyGone, {'fg': 'blue'})
-                
+                    numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
+                    print("filenames new:", i, ":", filenames_new[i])
+                    my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
+                    my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
+                    my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
+                    my_listbox.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
+                    
+
+                    if (i % 2) == 0:
+                        my_listbox2.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
+                        my_listbox.itemconfig(numberFilesAlreadyGone2, {'bg': '#f5f5f5'})
+                    numberFilesAlreadyGone = numberFilesAlreadyGone + 1
+                    count = numberFilesAlreadyGone
+            # LIST BOX INSERT SECTION END
             x = 15
             if x == 123:
                 for i in range(0, len(filenames)):
                     if filenames_new[i] != filenames[i]:
 
                         print("filenames change", i, ":", filenames_new[i])
-                        # exec('Label%d=Label(root,text="Files changed:")\nLabel%d.grid(row=3, column=4)' %
-                        #      (i, i))
-
-                        # my_listbox2.insert(END, filenames_new[i])
-                        # exec('Label%d=Label(root,text="New File Name is: "+"%s",fg="#006400")\nLabel%d.grid(row=3, column=0)' %
-                        #      (i, filenames_new[i], i))
 
                 return filenames_new
             else:
                 print("Please Redo Entry")
-        my_progress['value'] =100
+        my_progress['value'] =100 #SETS THE PROGRESS BAR TO BE FULL AFTER EACH SCANNED FILE
         root.update_idletasks()
-        time.sleep(0.02)
-        
+        time.sleep(0.02) #INBETWEEN TIME FOR PROGRESS BAR
+        #CHECKING SORTED 
         if sorted(filenames) == sorted(filenames_new):
             
             print(sorted(filenames))
             print(sorted(filenames_new))
-
-            # exec('Label%d=Label(root,text="Files Submitted All Adhear to Our Guidelines! Wohoo!",fg="#006400")\nLabel%d.grid(row=5,column=0)' %
-            #      (i, i))
-
-            # Message box to show complete no changes
-            # messagebox.showinfo(
-            #     title='Alert: No Changes', message="No changes needed to be made at: " + path)
+        
+        # Scan subdirectory checked will return filenames_new here instead of before so doesnt scan sub unless ticked
         if var2.get() == 1:
             
             return filenames_new
         
     def rename_files_in_dir(dir):
         """
-        Walk a directory and rename all files in the path.
+        Actually Walks to a directory and rename all files in the path with the filename changes done prior.
         """
-         
+        
         
         for (dirpath, dirnames, filenames) in os.walk(dir):
             i = 0
             
             # Rename the filenames
             filenames_new = new_names(filenames)
-            # list_length = len(filenames_new)
-            # oglist_length = len(filenames)
+
             for f_old, f_new in zip(filenames, filenames_new):
                 
                 f_old = os.path.join(dirpath, f_old)
                 f_new = os.path.join(dirpath, f_new)
-
-                print("Hello this is the fnew thing"+f_new)
-                print("This is the filenames_new thing 0 array:")
 
                 if f_old == f_new:
                     
@@ -457,31 +337,18 @@ def myClick():
                 del dirnames[:]
                 dirnames.extend(dirnames_new)
 
-                # err("Renaming %s to %s\n" %
-                #     (os.path.abspath(f_old), os.path.abspath(f_new)))
-                # shutil.move(f_old, f_new)
-
     if __name__ == '__main__':
         args = parser.parse_args()
         dirs = [os.path.abspath(d) for d in args.directories]
     
         for d in dirs:
-
-            print('HEY YOU OVER HERE!' + d)
-
             rename_files_in_dir(d)
 
-    # messagebox.showinfo(title='Alert', message="Complete Changes at: " + path)
-
-
-
+# FIX FUNCTION BEGINS AFTER CHECKS HERE IF BUTTON IS CLICKED
+# Is mainly a code repition but with teh ability to actually allow filenames to be renamed in the directory not stopped
 def fix():
 
-    
-
     os.chdir(path)
-    # my_listbox.delete(0, END)
-    # my_listbox2.delete(0, END)
     retval = os.getcwd()
 
     print("Directory For fix %s" % retval)
@@ -501,14 +368,7 @@ def fix():
         # print(filenames[0])
         for i in range(0, len(filenames)):
             print("filenames original", i, ":", filenames[i])
-            # if i == 0:
-                # exec('Label%d=Label(root,text="Files Fixed:")\nLabel%d.grid(row=3, column=0)' %
-                #     (i, i))
-            # # create items in listbox
-            # my_listbox.insert(END, filenames[i])
-            # my_listbox.itemconfig(i, {'fg': 'blue'})
-            # if (i % 2) == 0:
-            #     my_listbox.itemconfig(i, {'bg': '#f5f5f5'})
+
 
         # Replace white space with underscores:
         filenames_new = (re.sub('\s+', '_', fn) for fn in filenames)
@@ -524,55 +384,39 @@ def fix():
         filenames_new = (re.sub('\&', '_and_',  fn) for fn in filenames_new)
         
 
-        # filenames_new = (
-        #     re.sub('\.*[.](?!txt$|jpg$|png$|tif$|bmp$|xlsx$|rtf$|jpeg$|docx$|doc$|odt$|xls$|pdf$|ods$|e57$|obj$|vrml$|mtl$|stl$|aac$|aif$|flac$|mp3$|ogg$|xml$|html$|sgml$|xhtml$|dwg$|dxf$|svg$|csv$|cfm$|vrml$|gml$|xsd$|vrml$|cpg$|dbf$|prj$|sbn$|sbx$|shp$|shx$|shp.xml$)[^.]*', '', fn) for fn in filenames_new)
-
         if var.get() == 1:
             # Alphabet For lowercase
             filenames_new = (re.sub('', '',  fn.lower()) for fn in filenames_new)
 
             # Erase non-alphanumeric-period-underscore characters:
         filenames_new = (re.sub('([.](?![A-Za-z0-9]+$))', '-',  fn)
-                         for fn in filenames_new)
+                        for fn in filenames_new)
 
-        
-        
         if var3.get()==1:
-            filenames_new = (re.sub('.JPG', 'jpg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.JPEG', 'jpeg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.CSV', 'csv',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.SHP', 'shp',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.HTML', 'html',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TIFF', 'tiff',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TXT', 'txt',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.PNG', 'png',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.TIF', 'tif',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.BMP', 'bmp',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.RTF', 'rtf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DOCX', 'docx',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DOC', 'doc',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.ODT', 'odt',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XLS', 'xls',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.PDF', 'pdf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.ODS', 'ods',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.E57', 'e57',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.OBJ', 'obj',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DWG', 'dwg',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.DXF', 'dxf',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.CSS', 'css',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XSD', 'xsd',  fn) for fn in filenames_new)
-            filenames_new = (re.sub('.XML', 'xml',  fn) for fn in filenames_new)
-            # \.*[.](?!txt$|jpg$|png$|tif$|bmp$|xlsx$|rtf$|jpeg$|docx$|doc$|odt$|xls$|pdf$|ods$|e57$|obj$|vrml$|mtl$|stl$|aac$|aif$|flac$|mp3$|ogg$|xml$|html$|sgml$|xhtml$|dwg$|dxf$|svg$|csv$|cfm$|vrml$|gml$|xsd$|vrml$|cpg$|dbf$|prj$|sbn$|sbx$|shp$|shx$)', '', fn) for fn in filenames_new)
-            # for fn in filenames:
-            #     print ('hello')
-            #     file = fn
-            #     basename, ext = file.split('.')
-            #     print(basename + 'this is basename')
-            #     print(ext + 'this is ext')
-            #     newname = basename + '.' + ext.lower()
-            #     print(newname + 'this is new name')
-            #     filenames_changed = newname
-            #     filenames_new = (re.sub(filenames, filenames_changed,  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.JPG', '.jpg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.JPEG', '.jpeg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.CSV', '.csv',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.SHP', '.shp',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.HTML', '.html',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TIFF', '.tiff',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TXT', '.txt',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.PNG', '.png',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.TIF', '.tif',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.BMP', '.bmp',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.RTF', '.rtf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DOCX', '.docx',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DOC', '.doc',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.ODT', '.odt',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XLS', '.xls',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.PDF', '.pdf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.ODS', '.ods',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.E57', '.e57',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.OBJ', '.obj',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DWG', '.dwg',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.DXF', '.dxf',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.CSS', '.css',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XSD', '.xsd',  fn) for fn in filenames_new)
+            filenames_new = (re.sub('.XML', '.xml',  fn) for fn in filenames_new)
 
 
         if var4.get() ==1:
@@ -598,50 +442,11 @@ def fix():
         # Merge consecutive hyphen and underscores after for aesthetics
         filenames_new = [re.sub('-_', '-', fn) for fn in filenames_new]
 
-
-        # if var2.get() == 1:
-        #     with open("file_names.txt", "wt", encoding='utf-8') as output:
-        #         output.write('\n'.join(filenames))
-        #         output.write('\n')
-
         if filenames_new != filenames:
-            # for i in range(0, len(filenames)):
-            #     print("filenames new:", i, ":", filenames_new[i])
-            #     my_listbox2.insert(END, filenames_new[i])
-
-            #     my_listbox2.itemconfig(i, {'fg': 'blue'})
-            #     if (i % 2) == 0:
-            #         my_listbox2.itemconfig(i, {'bg': '#f5f5f5'})
-
-            #     if filenames_new[i] != filenames[i]:
-
-            #         # my_listbox2.insert(END, filenames_new[i])
-            #         my_listbox2.itemconfig(i, {'fg': 'green'})
-
-            #         my_listbox.itemconfig(i, {'fg': 'red'})
-            #         myButton2['state'] = 'disabled'
-
-            # warn = messagebox.askquestion(
-            #     "Found Issues", "We Have Found Incorrect Files, Do You Wish to Continue?", icon='warning')
-            # if warn == 'yes':
+        
             for i in range(0, len(filenames)):
                 if filenames_new[i] != filenames[i]:
-                        
-                    print("filenames change", i, ":", filenames_new[i])
-                    # exec('Label%d=Label(root,text="Files changed:")\nLabel%d.grid(row=3, column=4)' %
-                    #          (i, i))
-                             
-
-                        # my_listbox2.insert(END, filenames_new[i])
-                        # exec('Label%d=Label(root,text="New File Name is: "+"%s",fg="#006400")\nLabel%d.grid(row=3, column=0)' %
-                        #      (i, filenames_new[i], i))
-                
-                # if i == (len(filenames)-1):
-                #     # messagebox.showinfo(
-                #     # "Fixed issues", "We Have Fixed Incorrect Files")
-                #     # myButton2['state'] = 'disabled'
-                    
-                # return filenames_new
+                        print("filenames change", i, ":", filenames_new[i])
             else:
                 print("Please Redo Entry")
         
@@ -649,13 +454,6 @@ def fix():
             print(sorted(filenames))
             print(sorted(filenames_new))
             
-            
-            # exec('Label%d=Label(root,text="Files Submitted All Adhear to Our Guidelines! Wohoo!",fg="#006400")\nLabel%d.grid(row=5,column=0)' %
-            #      (i, i))
-
-            # # Message box to show complete no changes
-            # messagebox.showinfo(
-            #     title='Alert: No Changes', message="No changes needed to be made at: " + path)
         if var2.get() == 1:
             my_progress.stop()
             return filenames_new
@@ -672,8 +470,6 @@ def fix():
             # Rename the filenames
             filenames_new = new_names(filenames)
             
-            # list_length = len(filenames_new)
-            # oglist_length = len(filenames)
             for f_old, f_new in zip(filenames, filenames_new):
 
                 f_old = os.path.join(dirpath, f_old)
@@ -724,7 +520,6 @@ def fix():
 
             rename_files_in_dir(d)
 
-    # messagebox.showinfo(title='Alert', message="Complete Changes at: " + path)
 
 def printFiles():
     os.chdir(path)
@@ -759,66 +554,15 @@ def printFiles():
 
         for d in dirs:
 
-         
-
             print_files_in_directory(d)
 
     
     return
-        # for (dirpath, dirnames, filenames) in os.walk(dir):
-        #     # for i in range(0, len(filenames)):
-        #         with open("file_names.txt", "a+", encoding='utf-8') as output:
-        #             output.write(''.join(dirpath))
-        #             output.write('\n'.join(filenames))
-        #             output.write('\n')
-
-                # print(filenames)
-                # with open("file_names.txt", "a+", encoding='utf-8') as output:
-                #     output.write('\n'.join(filenames))
-                #     output.write('\n')
-                #     data = output.read(100)
-                #     if len(data) > 0:
-
-                #         output.write('\n'.join(filenames))
-                #         output.write('\n')
-
-#  all_files = root, dirs, files = next(os.walk(dir))
-
-#         file = files[i]
-
-
-
-#         text_file = open("file_names.txt", "wt", encoding='utf-8')
-#         text_file.write(filenames)
-#         text_file.close()
-
-
 
 def printSubFiles():
     os.chdir(path)
     retval = os.getcwd()
 
-    # Initialisation
-    totalFilesize = 0
-    extStr = ''
-    extMap = {}
-    fileList = []
-    fileListName = []
-    dirList = []
-    allList = []
-    spacesList = []
-    ampList = []
-    plusList = []
-    quoteList = []
-    commaList = []
-    parenthList = []
-    otherCharList = []
-    dupFileList = []
-    systemFileList = []
-    emptyFileList = []
-    doubleExtList = []
-    noExtList = []
-        
 
     outputDir = path
     # open("file_names.txt", "w", encoding='utf-8')
@@ -871,18 +615,6 @@ def printSubFiles():
         noExtList = []
         JPGlist=[]
         paths = os.listdir(dir)
-        # abs_paths = [os.path.join(dir, p) for p in paths]
-        # # filter for paths that are files
-        # file_list = [p for p in paths if os.path.isfile(p)]
-        # fileCounter = 0
-        # for root, dirs, files in os.walk(dir):
-        #     for file in files:    
-        #         if file.endswith('.jpg'):
-        #             fileCounter += 1
-        # open("file_names.txt", "a+", encoding='utf-8').write('\n'.join(file_list))
-        # open("file_names.txt", "a+", encoding='utf-8').write('\n File_Names_Count:')
-        # open("file_names.txt", "a+", encoding='utf-8').write('\n'.join(str(fileCounter)) + 'jpg')
-       
 
         for (dirpath, dirnames, filenames) in os.walk(path):
             # for i in range(0, len(filenames)):
@@ -972,9 +704,11 @@ def printSubFiles():
         logfile.write(format('Directories and Files:', '<25') + str(len(dirList) + len(fileList)) + '\n')
         logfile.write(format('Total Filesize:', '<25') + str("{:,}".format(totalFilesize)) + ' bytes\n')
         logfile.write(format('Extensions:', '<25') + extStr + '\n')
+        
         # logfile.write(format('Documentation files:', '<25') + str(len(documentation)) + '\n')
         displayReportText(documentation, 'Documentation Files = ' + str(len(documentation)))
-        displayReportText(list_all, 'Files = ' + str(len(list_all)))
+        displayReportText(list_all, 'Files Overall = ' + str(len(list_all)))
+        # displayReportText(duplicate_List, 'Duplicate Files = ' + str(len(duplicate_List)))
         displayReportText(spacesList, 'Spaces (includes folders) = ' + str(len(spacesList)))
         displayReportText(JPGlist, 'Uppercase JPG = ' + str(len(JPGlist)))
         displayReportText(removalExcessiveChar, 'Removal of -_ for readability = ' + str(len(removalExcessiveChar)))
@@ -998,34 +732,7 @@ def printSubFiles():
         logfile.close()
         print(logfileoutput)
         os.startfile(str(outputFile))
-        # os.system('"W:\\users\\jgg513\\ADS-Easy\\test\\output-11_2022_09_27.log"')  
-                #     # output.write('\n'.join(filenames))
-                #     output.write('\n')
 
-                # with open("file_names.txt", "a+", encoding='utf-8') as output:
-                #     output.write(''.join(dirpath).join(dirnames).join(filenames))
-                #     # output.write('\n'.join(filenames))
-                #     output.write('\n')
-            
-                # print(filenames)
-                # with open("file_names.txt", "a+", encoding='utf-8') as output:
-                #     output.write('\n'.join(filenames))
-                #     output.write('\n')
-                #     data = output.read(100)
-                #     if len(data) > 0:
-
-                #         output.write('\n'.join(filenames))
-                #         output.write('\n')
-
-#  all_files = root, dirs, files = next(os.walk(dir))
-
-#         file = files[i]
-
-
-
-#         text_file = open("file_names.txt", "wt", encoding='utf-8')
-#         text_file.write(filenames)
-#         text_file.close()
         
     if __name__ == '__main__':
         args = parser.parse_args()
@@ -1033,32 +740,17 @@ def printSubFiles():
 
         for d in dirs:
 
-         
 
             print_files_in_directory(d)
 
     
     return
-
+# --GUI SECTION CREATION BEGIN--
 main_container = Frame(root)
 main_container.grid()
 main_container.columnconfigure(3, weight=1)
-
 main_container.rowconfigure(3, weight=1)
-# # # confiugures column 0 to stretch with a scaler of 1.
-# main_container.columnconfigure(1, weight=1)
-# main_container.columnconfigure(2, weight=1)
-# main_container.columnconfigure(3, weight=1)
-# # # confiugures row 0 to stretch with a scaler of 1.
-# main_container.rowconfigure(1, weight=1)
-# main_container.rowconfigure(2, weight=1)
-# main_container.rowconfigure(3, weight=1)
-# # # confiugures column 0 to stretch with a scaler of 1.
-# main_container.columnconfigure(2, weight=1)
-# # # confiugures row 0 to stretch with a scaler of 1.
-# main_container.rowconfigure(2, weight=1)
 root.resizable(False, False)
-
 
 top_frame = Frame(main_container)
 top_frame.grid(row=0,column=0)
@@ -1071,33 +763,6 @@ top_right.grid(row=0, column=2, sticky='e')
 
 top_centre = Frame(main_container, bd=2)
 top_centre.grid(row=0, column=1)
-
-
-myButton = Button(top_left, text="Select Directory To Check",
-                  command=myClick, width=22)
-
-myButton.grid(column=0, row=0, padx=5 ,pady=5, sticky='w')
-
-myButton2 = Button(top_left,state=DISABLED, text="fix",
-                   command=fix, width=22)
-myButton2.grid(column=5, row=0, padx=50, pady=5, sticky='nsew')
-
-var = IntVar()
-var2 = IntVar()
-var3 = IntVar()
-var4 = IntVar()
-
-c = Checkbutton(top_left, text="lowercase", variable=var).grid(
-    column=1, row=0, padx=50, pady=5, sticky='nsew')
-
-c = Checkbutton(top_left, text="lowercase extension", variable=var3).grid(
-    column=3, row=0, padx=50, pady=5, sticky='nsew')
-
-c2 = Checkbutton(top_left, text="subdir", variable=var2).grid(
-    column=2, row=0, padx=50, pady=5, sticky='nsew')
-
-c3 = Checkbutton(top_left, text=" or fix folders only if ticked", variable=var4).grid(
-    column=4, row=0, padx=50, pady=5, sticky='nsew')    
 
 centre_frame = Frame(main_container, bd=2)
 centre_frame.grid(row=1, column=0)
@@ -1118,22 +783,50 @@ footer_left.grid(row=0, column=0, sticky='w')
 footer_right= Frame(footer, bd=2)
 footer_right.grid(row=0, column=2, sticky='w')
 
+# --GUI SECTION CREATION END--
 
-# photo = PhotoImage(file = "icon.ico")
-    
-# printList = Button(footer_right, text="Print Current Directory Files",
-#                   command=printFiles,width=22).grid(column=3, row=4,  padx=8, pady=5, sticky='e')
+# --BUTTONS START--
+myButton = Button(top_left, text="Select Directory To Check",
+                command=myClick, width=22)
 
-# # printList = Checkbutton(root, text="print list of names", variable=var2).grid(
-# #     column=2, row=0, padx=5, pady=5, sticky='nsew')
-printListSubDir = Button(footer_right, text="Print drectory info to textfile",
+myButton.grid(column=0, row=0, padx=5 ,pady=5, sticky='w')
+
+myButton2 = Button(top_left,state=DISABLED, text="fix",
+                command=fix, width=22)
+myButton2.grid(column=5, row=0, padx=50, pady=5, sticky='nsew')
+
+
+printListSubDir = Button(footer_right, text="Print directory info to textfile",
                 command=printSubFiles,width=22).grid(column=2, row=4,  padx=8, pady=5, sticky='e')
+# --BUTTONS END--
+# TICK BOX START
+var = IntVar()
+var2 = IntVar()
+var3 = IntVar()
+var4 = IntVar()
+
+c = Checkbutton(top_left, text="Lowercase all", variable=var).grid(
+    column=1, row=0, padx=50, pady=5, sticky='nsew')
+
+c = Checkbutton(top_left, text="Lowercase extension", variable=var3).grid(
+    column=3, row=0, padx=50, pady=5, sticky='nsew')
+
+c2 = Checkbutton(top_left, text="Scan subdir", variable=var2).grid(
+    column=2, row=0, padx=50, pady=5, sticky='nsew')
+
+c3 = Checkbutton(top_left, text="Auto fix Folders in Directory (only works with subdir ticked too)", variable=var4).grid(
+    column=4, row=0, padx=50, pady=5, sticky='nsew')    
+# TICK BOX END 
+
+
+
+# LABELS
 
 infoLabel = Label(footer, text="*Note this textfile will appear in the selected directory"
-                  ).grid(column=2, row=6,  padx=5, pady=5, sticky='e')
+                ).grid(column=2, row=6,  padx=5, pady=5, sticky='e')
 
 infoLabel2 = Label(footer, text="Blue = Files adhere, Red = Files do not match our policies, Green = New filenames"
-                  ).grid(column=0, row=6,  padx=5, pady=5, sticky='w')
+                ).grid(column=0, row=6,  padx=5, pady=5, sticky='w')
 
 
 submitlabel = Label(bottom_leftframe, text="Files Submitted:").grid(row=0, column=0)
@@ -1144,21 +837,15 @@ changedlabel = Label(bottom_rightframe, text="New file names:").grid(row=0, colu
 my_progress = ttk.Progressbar(footer_left, orient=HORIZONTAL, length=500, mode='determinate')
 my_progress.grid(row=2, column=0,  sticky='w')
 
+# LIST BOXES
 my_listbox2 = Listbox(bottom_rightframe,  width=70, height=15)
 my_listbox2.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
-# my_scrollbar2 = Scrollbar(my_listbox2, orient=VERTICAL)
-# my_scrollbar2.config(command = my_listbox2.yview)
-# my_scrollbar2.pack(side=RIGHT, fill= Y)
+
 
 
 my_listbox = Listbox(bottom_leftframe,  width=70, height=15)
 my_listbox.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
-# my_scrollbar = Scrollbar(my_listbox, orient=VERTICAL)
-# my_scrollbar.config(command = my_listbox.yview)
-# my_scrollbar.pack(side=RIGHT, fill= Y)
 
-
-# myapp = MyApp(root)
 root.mainloop()
 
 

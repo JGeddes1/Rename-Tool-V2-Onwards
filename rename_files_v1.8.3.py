@@ -1064,7 +1064,8 @@ footer_right= Frame(footer, bd=2)
 footer_right.grid(row=0, column=2, sticky='w')
 
 
-photo = PhotoImage(file = "icon.ico")
+
+
     
 # printList = Button(footer_right, text="Print Current Directory Files",
 #                   command=printFiles,width=22).grid(column=3, row=4,  padx=8, pady=5, sticky='e')
