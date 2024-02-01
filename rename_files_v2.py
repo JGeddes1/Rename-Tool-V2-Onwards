@@ -102,7 +102,7 @@ def myClick():
         
         # Generate new filenames for the given filenames
         
-        print(filenames)
+        # print(filenames)
         filelength = len(filenames)
         
         my_progress['value'] =50
@@ -179,8 +179,8 @@ def myClick():
         filenames_new = [re.sub('-_', '-', fn) for fn in filenames_new]
         
 
-        print('This is filenames array checker' + str(filenames))
-        print('This is filenames_new array checker' + str(filenames_new))
+        # print('This is filenames array checker' + str(filenames))
+        # print('This is filenames_new array checker' + str(filenames_new))
 
         # --FILENAME SCAN SECTION END --
         
@@ -194,9 +194,9 @@ def myClick():
             # UNQIUE LIST SECTION FOR LOG AND CHECKER
             if file not in unique_List:
                 unique_List.append(file)
-                print('this is unique list'+str(unique_List))  
+                # print('this is unique list'+str(unique_List))  
                 list_all =unique_List 
-                print("This is list_all" + str(list_all))
+                # print("This is list_all" + str(list_all))
             else:
                  duplicate_List.append(file)
         
@@ -220,7 +220,7 @@ def myClick():
             for i in range(0, filelength):
                     
                     numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
-                    print("filenames new:", i, ":", filenames_new[i])
+                    # print("filenames new:", i, ":", filenames_new[i])
                     my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
                     my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
                     my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
@@ -250,18 +250,18 @@ def myClick():
             global count
             
         
-            for f in filenames:
-                filecounter + 1
-                if var4.get() ==1:
-                    if "." not in filenames[filecounter]:
-                        print("This is no change"+str(noChangeLabel.winfo_exists))
+            # for f in filenames:
+            #     filecounter + 1
+            #     if var4.get() ==1:
+            #         if "." not in filenames[filecounter]:
+            #             print("This is no change"+str(noChangeLabel.winfo_exists))
         
             # LIST BOX INSERT SECTION IF SAME NAMES
             if var4.get() ==0:
                 for i in range(0, filelength):
 
                     numberFilesAlreadyGone2 = numberFilesAlreadyGone2 + 1
-                    print("filenames new:", i, ":", filenames_new[i])
+                    # print("filenames new:", i, ":", filenames_new[i])
                     my_listbox2.insert(numberFilesAlreadyGone2, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
                     my_listbox.insert(numberFilesAlreadyGone2, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
                     my_listbox2.itemconfig(numberFilesAlreadyGone2, {'fg': 'blue'})
@@ -274,39 +274,41 @@ def myClick():
                     numberFilesAlreadyGone = numberFilesAlreadyGone + 1
                     count = numberFilesAlreadyGone
             # LIST BOX INSERT SECTION END
-            x = 15
-            if x == 123:
-                for i in range(0, len(filenames)):
-                    if filenames_new[i] != filenames[i]:
+            # x = 15
+            # if x == 123:
+            #     for i in range(0, len(filenames)):
+            #         if filenames_new[i] != filenames[i]:
 
-                        print("filenames change", i, ":", filenames_new[i])
+            #             print("filenames change", i, ":", filenames_new[i])
 
-                return filenames_new
-            else:
-                print("Please Redo Entry")
+            #     return filenames_new
+            # else:
+            #     print("Please Redo Entry")
         my_progress['value'] =100 #SETS THE PROGRESS BAR TO BE FULL AFTER EACH SCANNED FILE
         root.update_idletasks()
         time.sleep(0.02) #INBETWEEN TIME FOR PROGRESS BAR
         #CHECKING SORTED 
-        if sorted(filenames) == sorted(filenames_new):
+        # if sorted(filenames) == sorted(filenames_new):
             
-            print(sorted(filenames))
-            print(sorted(filenames_new))
+        #     print(sorted(filenames))
+        #     print(sorted(filenames_new))
         
         # Scan subdirectory checked will return filenames_new here instead of before so doesnt scan sub unless ticked
         if var2.get() == 1:
             
             return filenames_new
         
+            
     def rename_files_in_dir(dir):
         """
         Actually Walks to a directory and rename all files in the path with the filename changes done prior.
         """
         
         
-        for (dirpath, dirnames, filenames) in os.walk(dir):
+        for (dirpath,dirnames, filenames) in os.walk(dir):
             i = 0
-            
+            if var4.get() ==1:   
+                rename_folders(dir)            
             # Rename the filenames
             filenames_new = new_names(filenames)
 
@@ -318,24 +320,26 @@ def myClick():
                 if f_old == f_new:
                     
                     continue
-            if var4.get() ==1:
 
-                # Rename the directories, and modify dirnames in place to aid os.walk
-                dirnames_new = new_names(dirnames) # sends the directory names off to the new names function and runs so appears on listbox but could change
-                for d_old, d_new in zip(dirnames, dirnames_new):
 
-                    d_old = os.path.join(dirpath, d_old)
-                    d_new = os.path.join(dirpath, d_new)
+    def rename_folders(dir):
+            
+            
+                for(dirpath,dirnames, filenames) in os.walk(dir):
 
-                    if d_old == d_new:
-                        continue
 
-                    err("Renaming dir %s to %s\n" %
-                        (os.path.abspath(d_old), os.path.abspath(d_new)))
-                    shutil.move(d_old, d_new)
+                    # Rename the directories, and modify dirnames in place to aid os.walk
+                    dirnames_new = new_names(dirnames) # sends the directory names off to the new names function and runs so appears on listbox but could change
+                    for d_old, d_new in zip(dirnames, dirnames_new):
 
-                del dirnames[:]
-                dirnames.extend(dirnames_new)
+                        d_old = os.path.join(dirpath, d_old)
+                        d_new = os.path.join(dirpath, d_new)
+
+                        if d_old == d_new:
+                            continue
+
+                    del dirnames[:]
+                    dirnames.extend(dirnames_new)
 
     if __name__ == '__main__':
         args = parser.parse_args()
@@ -353,6 +357,8 @@ def fix():
 
     print("Directory For fix %s" % retval)
 
+
+    
     parser = argparse.ArgumentParser(
         description="Rename all files in directory by replacing whitespace with underscores.")
     parser.add_argument('directories', metavar="DIR", nargs='*',
@@ -363,11 +369,11 @@ def fix():
         """
         Generate new filenames for the given filenames
         """
-        print(filenames)
+        
         
         # print(filenames[0])
         for i in range(0, len(filenames)):
-            print("filenames original", i, ":", filenames[i])
+            print("filenames original list", i, ":", filenames[i])
 
 
         # Replace white space with underscores:
@@ -419,12 +425,12 @@ def fix():
             filenames_new = (re.sub('.XML', '.xml',  fn) for fn in filenames_new)
 
 
-        if var4.get() ==1:
-            dirList = []
-            for (dirpath, dirnames, filenames) in os.walk(dir):
-                for d in dirnames:
-                    dirList.append(os.path.join(dirpath, d))
-            return
+        # if var4.get() ==1:
+        #     dirList = []
+        #     for (dirpath, dirnames, filenames) in os.walk(dir):
+        #         for d in dirnames:
+        #             dirList.append(os.path.join(dirpath, d))
+        #     return
             
         # Erase non-alphanumeric-period-underscore characters:
         filenames_new = (re.sub('[^a-zA-Z0-9._-]', '',  fn)
@@ -446,67 +452,108 @@ def fix():
         
             for i in range(0, len(filenames)):
                 if filenames_new[i] != filenames[i]:
-                        print("filenames change", i, ":", filenames_new[i])
-            else:
-                print("Please Redo Entry")
+                        print("filenames change list", i, ":", filenames_new[i])
+                        return filenames_new
         
-        if sorted(filenames) == sorted(filenames_new):
-            print(sorted(filenames))
-            print(sorted(filenames_new))
+        # if sorted(filenames) == sorted(filenames_new):
+        #     print(sorted(filenames))
+        #     print(sorted(filenames_new))
             
         if var2.get() == 1:
             my_progress.stop()
             return filenames_new
+        if var4.get() == 1:
+            my_progress.stop()
+            return filenames_new
 
-        
+        return filenames_new
+    
     def rename_files_in_dir(dir):
         """
         Walk a directory and rename all files in the path.
         """
+        if var2.get() == 0:
+            for (dirpath, dirnames, filenames) in os.walk(dir):
+           
+                # Rename the filenames
+                filenames_new = new_names(os.listdir(dir))
+                
+                if not filenames_new:
+                    print("Subdirectory renaming skipped.")
+                    return
+                # list_length = len(filenames_new)
+                # oglist_length = len(filenames)
+                for f_old, f_new in zip(os.listdir(dir), filenames_new):
 
-        for (dirpath, dirnames, filenames) in os.walk(dir):
-            i = 0
+                    f_old = os.path.join(dir, f_old)
+                    f_new = os.path.join(dir, f_new)
 
-            # Rename the filenames
-            filenames_new = new_names(filenames)
-            
-            for f_old, f_new in zip(filenames, filenames_new):
+                    print("Hello this is the fnew thing"+f_new)
+                    print("This is the filenames_new thing 0 array:")
 
-                f_old = os.path.join(dirpath, f_old)
-                f_new = os.path.join(dirpath, f_new)
+                    if f_old == f_new:
 
-                print("Hello this is the fnew thing"+f_new)
-                print("This is the filenames_new thing 0 array:")
+                        continue
 
-                if f_old == f_new:
+                    err("Renaming %s to %s\n" %
+                        (os.path.abspath(f_old), os.path.abspath(f_new)))
+                    shutil.move(f_old, f_new)
+        else:
 
-                    continue
 
-                err("Renaming %s to %s\n" %
-                    (os.path.abspath(f_old), os.path.abspath(f_new)))
-                shutil.move(f_old, f_new)
+            for (dirpath, dirnames, filenames) in os.walk(dir):
+                i = 0
 
+                # Rename the filenames
+                filenames_new = new_names(filenames)
+                
+                if not filenames_new:
+                    print("Subdirectory renaming skipped.")
+                    return
+                # list_length = len(filenames_new)
+                # oglist_length = len(filenames)
+                for f_old, f_new in zip(filenames, filenames_new):
+
+                    f_old = os.path.join(dirpath, f_old)
+                    f_new = os.path.join(dirpath, f_new)
+
+                    print("Hello this is the fnew thing"+f_new)
+                    print("This is the filenames_new thing 0 array:")
+
+                    if f_old == f_new:
+
+                        continue
+
+                    err("Renaming %s to %s\n" %
+                        (os.path.abspath(f_old), os.path.abspath(f_new)))
+                    shutil.move(f_old, f_new)
+        if var4.get() ==1:
+            rename_dir(dir)
         messagebox.showinfo(
         "Fixed issues", "We Have Fixed Incorrect Files")
         myButton2['state'] = 'disabled'
-        
-        if var4.get() ==1:
-            # Rename the directories, and modify dirnames in place to aid os.walk
-            dirnames_new = new_names(dirnames)
-            for d_old, d_new in zip(dirnames, dirnames_new):
+    
+    
+    def rename_dir(dir):
+        for (dirpath, dirnames, filenames) in os.walk(dir):
+           
+                
+                # Rename the directories, and modify dirnames in place to aid os.walk
+                dirnames_new = new_names(dirnames)
+                for d_old, d_new in zip(dirnames, dirnames_new):
 
-                d_old = os.path.join(dirpath, d_old)
-                d_new = os.path.join(dirpath, d_new)
+                    d_old = os.path.join(dirpath, d_old)
+                    d_new = os.path.join(dirpath, d_new)
 
-                if d_old == d_new:
-                    continue
+                    if d_old == d_new:
+                        continue
 
-                err("Renaming dir %s to %s\n" %
-                    (os.path.abspath(d_old), os.path.abspath(d_new)))
-                shutil.move(d_old, d_new)
+                    err("Renaming dir %s to %s\n" %
+                        (os.path.abspath(d_old), os.path.abspath(d_new)))
+                    shutil.move(d_old, d_new)
 
-            del dirnames[:]
-            dirnames.extend(dirnames_new)
+                del dirnames[:]
+                dirnames.extend(dirnames_new)
 
     
 
@@ -515,11 +562,10 @@ def fix():
         dirs = [os.path.abspath(d) for d in args.directories]
 
         for d in dirs:
-
+            
             print('HEY YOU OVER HERE!' + d)
-
+            
             rename_files_in_dir(d)
-
 
 def printFiles():
     os.chdir(path)
@@ -568,7 +614,7 @@ def printSubFiles():
     # open("file_names.txt", "w", encoding='utf-8')
 
     print("Directory changed successfully %s" % retval)
-
+    
     parser = argparse.ArgumentParser(
         description="Rename all files in directory by replacing whitespace with underscores.")
     parser.add_argument('directories', metavar="DIR", nargs='*',
@@ -814,7 +860,7 @@ c = Checkbutton(top_left, text="Lowercase extension", variable=var3).grid(
 c2 = Checkbutton(top_left, text="Scan subdir", variable=var2).grid(
     column=2, row=0, padx=50, pady=5, sticky='nsew')
 
-c3 = Checkbutton(top_left, text="Auto fix Folders in Directory (only works with subdir ticked too)", variable=var4).grid(
+c3 = Checkbutton(top_left, text="Scan to Fix Folders in Directory (only works with subdir ticked too)", variable=var4).grid(
     column=4, row=0, padx=50, pady=5, sticky='nsew')    
 # TICK BOX END 
 
