@@ -476,8 +476,11 @@ def fix():
             for (dirpath, dirnames, filenames) in os.walk(dir):
            
                 # Rename the filenames
-                filenames_new = new_names(os.listdir(dir))
+                if var4.get() == 1:
+                    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+                    filenames_new = new_names(files)
                 
+                filenames_new = new_names(os.listdir(dir))
                 if not filenames_new:
                     print("Subdirectory renaming skipped.")
                     return
