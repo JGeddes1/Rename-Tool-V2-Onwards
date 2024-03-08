@@ -558,6 +558,7 @@ def fix():
                 del dirnames[:]
                 dirnames.extend(dirnames_new)
 
+    os.startfile(retval)
     
 
     if __name__ == '__main__':
