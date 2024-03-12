@@ -11,13 +11,17 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
 from pathlib import Path
+from tkinter.font import Font
 from typing import Counter
 from unicodedata import name
 from array import array
+from tkinter import Tk, Button, Label, Listbox, IntVar, Checkbutton, Frame, HORIZONTAL, ttk
+
 
 # Array that gets unique filenames put in for checking later on in code
 unique_List = []
-
+unique_filenames = []
+duplicate_List =[]
 global count
 global  noChangeLabel
 global length
@@ -45,7 +49,7 @@ def myClick():
     #Sets the fix button to off initially
     myButton2['state'] = 'disabled'
     unique_List = []
-    
+    unique_filenames = []
 
 # Find directory Function
     def findDir():
@@ -78,6 +82,7 @@ def myClick():
     # make list blank each time click is run
     my_listbox.delete(0, END)
     my_listbox2.delete(0, END)
+    duplicate_listbox.delete(0,END)
     # check directory
     # retval = os.getcwd()
     if path == '':
@@ -187,9 +192,10 @@ def myClick():
         # Have to figure out how to add to array on each loop if want unique across folderpaths currently only works with chosen directory and not sub directories
         # Potentially create a if unique_list.length = filenames_new.length then put uniquelist into a global array? my_list = list(set(my_list))
         global list_all
-        global duplicate_List
+
         list_all = []
-        duplicate_List =[]
+        
+        
         for file in filenames_new:
             # UNQIUE LIST SECTION FOR LOG AND CHECKER
             if file not in unique_List:
@@ -203,8 +209,17 @@ def myClick():
         countDuplicate_List = len(duplicate_List)
         # IF COUNT DUPLICATE IS GREATER 0 IT WILL ALERT THERE IS DUPLICATES
         if countDuplicate_List > 0:
-            messagebox.showinfo(title='Alert', message="Duplicate filenames when fix will take place please rename the following files before continuing " + str(duplicate_List))
-        
+            # messagebox.showinfo(title='Alert', message="Duplicate filenames when fix will take place please rename the following files before continuing " + str(duplicate_List))
+            
+            printed_duplicates = set()
+            
+            for filename in duplicate_List:
+                if filename not in unique_filenames:
+                    unique_filenames.append(filename)
+                    duplicate_listbox.insert(END, filename)
+                    myButton2['state'] = 'disabled'
+
+
         # IF NOT A CHANGE NEEDED
         noChangeLabel = Label(main_container, text="No Changes needed")
         noChangeLabel.grid(row=3, column=0)
@@ -235,14 +250,21 @@ def myClick():
                         my_listbox.delete(numberFilesAlreadyGone2)
                         wrongfilecount = 0
                         wrongfilecount +=1
-                        my_listbox2.insert(0, filenames_new[i] + ' ' + str(numberFilesAlreadyGone2))
+                        
+                        my_listbox2.insert(0, filenames_new[i])
                         # my_listbox2.insert(END, filenames_new[i])
                         my_listbox2.itemconfig(0, {'fg': 'green'})
                         
                         
-                        my_listbox.insert(0, filenames[i] + ' ' + str(numberFilesAlreadyGone2))
+                        my_listbox.insert(0, filenames[i])
                         my_listbox.itemconfig(0, {'fg': 'red'})
-                    
+
+        if countDuplicate_List > 0:
+            myButton2['state'] = 'disabled'
+            
+            # if counter == countDuplicate_List:
+            #     messagebox.showinfo(title='Alert', message="Duplicate filenames when fix will take place please rename the following files before continuing ")
+            
             # ---LIST BOX INSERT SECTION END --
         # IF FILENAMES ORIGINAL DONT HAVE TO CHANGE
         if filenames == filenames_new :
@@ -294,11 +316,13 @@ def myClick():
         #     print(sorted(filenames_new))
         
         # Scan subdirectory checked will return filenames_new here instead of before so doesnt scan sub unless ticked
+        print("Duplicate list count " + str(countDuplicate_List))        
         if var2.get() == 1:
             
             return filenames_new
-        
-            
+    
+
+
     def rename_files_in_dir(dir):
         """
         Actually Walks to a directory and rename all files in the path with the filename changes done prior.
@@ -340,11 +364,11 @@ def myClick():
 
                     del dirnames[:]
                     dirnames.extend(dirnames_new)
-
+    
     if __name__ == '__main__':
         args = parser.parse_args()
         dirs = [os.path.abspath(d) for d in args.directories]
-    
+        
         for d in dirs:
             rename_files_in_dir(d)
 
@@ -557,10 +581,7 @@ def fix():
 
                 del dirnames[:]
                 dirnames.extend(dirnames_new)
-
-    os.startfile(retval)
     
-
     if __name__ == '__main__':
         args = parser.parse_args()
         dirs = [os.path.abspath(d) for d in args.directories]
@@ -758,7 +779,6 @@ def printSubFiles():
         # logfile.write(format('Documentation files:', '<25') + str(len(documentation)) + '\n')
         displayReportText(documentation, 'Documentation Files = ' + str(len(documentation)))
         displayReportText(list_all, 'Files Overall = ' + str(len(list_all)))
-        # displayReportText(duplicate_List, 'Duplicate Files = ' + str(len(duplicate_List)))
         displayReportText(spacesList, 'Spaces (includes folders) = ' + str(len(spacesList)))
         displayReportText(JPGlist, 'Uppercase JPG = ' + str(len(JPGlist)))
         displayReportText(removalExcessiveChar, 'Removal of -_ for readability = ' + str(len(removalExcessiveChar)))
@@ -770,7 +790,8 @@ def printSubFiles():
         displayReportText(commaList, 'Commas = ' + str(len(commaList)))
         displayReportText(parenthList, 'Parenthesis = ' + str(len(parenthList)))
         displayReportText(otherCharList, 'Other Characters = ' + str(len(otherCharList)))
-        displayReportText(dupFileList, 'Duplicate Files = ' + str(len(dupFileList)))
+        displayReportText(unique_filenames, 'Duplicate Filenames = ' + str(len(unique_filenames)))
+        displayReportText(dupFileList, 'Duplicate Files Locations = ' + str(len(dupFileList)))
         displayReportText(systemFileList, 'System Files = ' + str(len(systemFileList)))
         displayReportText(emptyFileList, 'Empty Files = ' + str(len(emptyFileList)))
         
@@ -795,6 +816,10 @@ def printSubFiles():
 
     
     return
+
+def open_current_directory():
+    os.startfile(path)
+    
 # --GUI SECTION CREATION BEGIN--
 main_container = Frame(root)
 main_container.grid()
@@ -834,20 +859,26 @@ footer_right= Frame(footer, bd=2)
 footer_right.grid(row=0, column=2, sticky='w')
 
 # --GUI SECTION CREATION END--
+button_font = Font(family='Segoe UI Emoji', size=10)
 
 # --BUTTONS START--
-myButton = Button(top_left, text="Select Directory To Check",
-                command=myClick, width=22)
+myButton = Button(top_left, text="📂 Select Directory to check",
+                command=myClick, font=button_font, bd=2)
 
 myButton.grid(column=0, row=0, padx=5 ,pady=5, sticky='w')
 
-myButton2 = Button(top_left,state=DISABLED, text="fix",
-                command=fix, width=22)
+myButton2 = Button(top_left,state=DISABLED, text="🛠️ Fix Issues",
+                command=fix, font=button_font, width=22, bd=2)
 myButton2.grid(column=5, row=0, padx=50, pady=5, sticky='nsew')
 
 
-printListSubDir = Button(footer_right, text="Log Overview of all scanned files textfile",
-                command=printSubFiles).grid(column=2, row=4,  padx=8, pady=5, sticky='e')
+printListSubDir = Button(footer_right, text="📄 Generate Report",
+                command=printSubFiles,font=button_font, bd=2).grid(column=2, row=4,  padx=8, pady=5, sticky='e')
+
+
+open_button = Button(footer_right, text="Open Current Directory In File Explorer 🗃️", command=open_current_directory,font=button_font)
+open_button.grid(column=3, row=4,  padx=5, pady=5, sticky='w')
+
 # --BUTTONS END--
 # TICK BOX START
 var = IntVar()
@@ -871,16 +902,15 @@ c3 = Checkbutton(top_left, text="Scan to Fix Folders in Directory", variable=var
 
 
 # LABELS
-
-infoLabel = Label(footer, text="*Note this textfile will appear in the selected directory"
-                ).grid(column=2, row=6,  padx=5, pady=5, sticky='e')
-
-infoLabel2 = Label(footer, text="Blue = Files adhere, Red = Files do not match our policies, Green = New filenames"
-                ).grid(column=0, row=6,  padx=5, pady=5, sticky='w')
+infoLabel = Label(footer, text="*Note: The report will appear in the selected directory"
+                  ).grid(column=2, row=6, padx=5, pady=5, sticky='e')
+infoLabel2 = Label(footer, text="Blue: Files adhere | Red: Files do not match policies | Green: New filenames"
+                   ).grid(column=0, row=6, padx=5, pady=5, sticky='w')
 
 
 submitlabel = Label(bottom_leftframe, text="Files Submitted:").grid(row=0, column=0)
-changedlabel = Label(bottom_rightframe, text="New file names:").grid(row=0, column=0)
+changedlabel = Label(bottom_rightframe, text="New File Names:").grid(row=0, column=0)
+changedlabel = Label(bottom_rightframe, text="Duplicate File Names:").grid(row=0, column=4)
 
 
 # progress bar
@@ -895,6 +925,26 @@ my_listbox2.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
 
 my_listbox = Listbox(bottom_leftframe,  width=70, height=15)
 my_listbox.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
+
+# Add these lines where you create your Listboxes
+my_scrollbar = Scrollbar(bottom_leftframe, orient=VERTICAL)
+my_listbox.config(yscrollcommand=my_scrollbar.set)
+my_scrollbar.config(command=my_listbox.yview)
+
+my_scrollbar2 = Scrollbar(bottom_rightframe, orient=VERTICAL)
+my_listbox2.config(yscrollcommand=my_scrollbar2.set)
+my_scrollbar2.config(command=my_listbox2.yview)
+my_scrollbar.grid(row=1, column=1, padx=5, pady=5, sticky='ns')
+my_scrollbar2.grid(row=1, column=1, padx=5, pady=5, sticky='ns')
+
+
+
+duplicate_listbox = Listbox(bottom_rightframe, width=40, height=5)
+duplicate_listbox.grid(row=1, column=4, padx=5, pady=5, sticky='nsew')
+
+
+
+
 
 root.mainloop()
 
