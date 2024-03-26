@@ -50,7 +50,7 @@ def myClick():
     myButton2['state'] = 'disabled'
     unique_List = []
     unique_filenames = []
-
+    duplicate_List =[]
 # Find directory Function
     def findDir():
         global path # set global path for all future calls
@@ -498,13 +498,15 @@ def fix():
         """
         if var2.get() == 0:
             for (dirpath, dirnames, filenames) in os.walk(dir):
-           
+                filenames_new = new_names(os.listdir(dir))
                 # Rename the filenames
                 if var4.get() == 1:
                     files = [f for f in os.listdir('.') if os.path.isfile(f)]
-                    filenames_new = new_names(files)
+                    # print(dirnames)
+                    filenames_new = new_names(dirnames)
                 
-                filenames_new = new_names(os.listdir(dir))
+                
+
                 if not filenames_new:
                     print("Subdirectory renaming skipped.")
                     return
